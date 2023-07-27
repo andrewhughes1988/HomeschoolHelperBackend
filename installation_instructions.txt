@@ -1,0 +1,9 @@
+install .net and nuget
+clone repo
+dotnet restore packages
+
+if dependencies are not resolved
+
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package AutoMapper

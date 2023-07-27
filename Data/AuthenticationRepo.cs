@@ -35,7 +35,7 @@ namespace HomeschoolHelperApi.Data
 
                 User user = await _context.Users.FirstOrDefaultAsync
                         (user => user.Email.ToLower().Equals(email.ToLower()));
-
+                Console.WriteLine(VerifyPasswordHash(password,user.PasswordHash,user.PasswordSalt));
                 if (user == null)
                 {
                     response.Success = false;
@@ -60,6 +60,7 @@ namespace HomeschoolHelperApi.Data
             {
                 response.Success = false;
                 response.Message = "Error authenticating user.";
+                Console.WriteLine(e.Message);
             }
 
 
@@ -153,7 +154,7 @@ namespace HomeschoolHelperApi.Data
             };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey
-                (System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:JWTSecret").Value));
+                (System.Text.Encoding.UTF8.GetBytes("ULTRASUPERSECRETKEYFORTHEAPI"));
 
             SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

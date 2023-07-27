@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -52,8 +53,8 @@ namespace HomeschoolHelperApi
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey
-                            (System.Text.Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:JWTSecret").Value)),
+                        IssuerSigningKey = new SymmetricSecurityKey  //can add to configuration or env file and read it
+                            (System.Text.Encoding.UTF8.GetBytes("ULTRASUPERSECRETKEYFORTHEAPI")), 
                         ValidateIssuer = false,
                         ValidateAudience = false
 
@@ -61,7 +62,7 @@ namespace HomeschoolHelperApi
                  });
 
             services.AddDbContext<DataContext>
-                (options => options.UseMySQL(Configuration.GetConnectionString("DataContext")));
+                (options => options.UseSqlServer(Configuration.GetConnectionString("DataContext")));
 
             services.AddControllers();
 
